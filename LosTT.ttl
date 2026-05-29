@@ -81,13 +81,13 @@
             lv2:scalePoint [ rdfs:label "Filter" ; rdf:value 1.0 ] ;
             lv2:scalePoint [ rdfs:label "Fail" ; rdf:value 2.0 ]
         ] ,
-        [ a lv2:InputPort , lv2:ControlPort ; lv2:index 13 ; lv2:symbol "aux_active" ; lv2:name "AUX Active" ; lv2:default 0.0 ; lv2:minimum 0.0 ; lv2:maximum 1.0 ] ,
+        [ a lv2:InputPort , lv2:ControlPort ; lv2:index 13 ; lv2:symbol "aux_active" ; lv2:name "AUX Active" ; lv2:portProperty lv2:integer, lv2:toggled ; lv2:default 0 ; lv2:minimum 0 ; lv2:maximum 1 ] ,
         [ a lv2:InputPort , lv2:ControlPort ; lv2:index 14 ; lv2:symbol "aux_onset" ; lv2:name "AUX Onset" ; lv2:default 0.20 ; lv2:minimum 0.0 ; lv2:maximum 1.0 ] ,
         [ a lv2:InputPort , lv2:ControlPort ; lv2:index 15 ; lv2:symbol "spread" ; lv2:name "Spread" ; lv2:default 0.45 ; lv2:minimum 0.0 ; lv2:maximum 1.0 ] ,
         [ a lv2:InputPort , lv2:ControlPort ; lv2:index 16 ; lv2:symbol "dry_type" ; lv2:name "Dry Type" ; lv2:default 0.0 ; lv2:minimum 0.0 ; lv2:maximum 1.0 ] ,
-        [ a lv2:InputPort , lv2:ControlPort ; lv2:index 17 ; lv2:symbol "drop_bypass" ; lv2:name "Drop Bypass" ; lv2:default 0.0 ; lv2:minimum 0.0 ; lv2:maximum 1.0 ] ,
-        [ a lv2:InputPort , lv2:ControlPort ; lv2:index 18 ; lv2:symbol "snag_bypass" ; lv2:name "Snag Bypass" ; lv2:default 0.0 ; lv2:minimum 0.0 ; lv2:maximum 1.0 ] ,
-        [ a lv2:InputPort , lv2:ControlPort ; lv2:index 19 ; lv2:symbol "hum_bypass" ; lv2:name "Hum Bypass" ; lv2:default 0.0 ; lv2:minimum 0.0 ; lv2:maximum 1.0 ] ,
+        [ a lv2:InputPort , lv2:ControlPort ; lv2:index 17 ; lv2:symbol "drop_bypass" ; lv2:name "Drop Bypass" ; lv2:portProperty lv2:integer, lv2:toggled ; lv2:default 0 ; lv2:minimum 0 ; lv2:maximum 1 ] ,
+        [ a lv2:InputPort , lv2:ControlPort ; lv2:index 18 ; lv2:symbol "snag_bypass" ; lv2:name "Snag Bypass" ; lv2:portProperty lv2:integer, lv2:toggled ; lv2:default 0 ; lv2:minimum 0 ; lv2:maximum 1 ] ,
+        [ a lv2:InputPort , lv2:ControlPort ; lv2:index 19 ; lv2:symbol "hum_bypass" ; lv2:name "Hum Bypass" ; lv2:portProperty lv2:integer, lv2:toggled ; lv2:default 0 ; lv2:minimum 0 ; lv2:maximum 1 ] ,
         [ a lv2:InputPort , lv2:ControlPort ; lv2:index 20 ; lv2:symbol "hiss_level" ; lv2:name "Hiss Level" ; lv2:default 0.50 ; lv2:minimum 0.0 ; lv2:maximum 1.0 ] ,
         [ a lv2:InputPort , lv2:ControlPort ; lv2:index 21 ; lv2:symbol "mech_level" ; lv2:name "Mechanical Noise Level" ; lv2:default 0.50 ; lv2:minimum 0.0 ; lv2:maximum 1.0 ] ,
         [ a lv2:InputPort , lv2:ControlPort ; lv2:index 22 ; lv2:symbol "mech_type" ; lv2:name "Mechanical Noise Type" ; lv2:default 0.0 ; lv2:minimum -1.0 ; lv2:maximum 1.0 ] ,

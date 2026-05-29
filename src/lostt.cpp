@@ -187,6 +187,11 @@ static inline float quantize01(float x) {
     return floorf((x * 100.0f) + 0.5f) * 0.01f;
 }
 
+static inline float bool01(float x) {
+    x = clampf(x, 0.0f, 1.0f);
+    return (x >= 0.5f) ? 1.0f : 0.0f;
+}
+
 static inline int select3(const float x) {
     int v = (int)floorf(x + 0.5f);
     if (v < 0) {
@@ -350,20 +355,24 @@ static void update_targets(LosTT* self) {
     self->target[CTRL_DRY] = clampf(port_value(self->control[PORT_DRY], 0.0f), 0.0f, 2.0f);
     self->target[CTRL_NOISE] = clampf(port_value(self->control[PORT_NOISE], 1.0f), 0.0f, 2.0f);
     self->target[CTRL_AUX_MODE] = clampf(port_value(self->control[PORT_AUX_MODE], 0.0f), 0.0f, 2.0f);
-    self->target[CTRL_AUX_ACTIVE] = quantize01(port_value(self->control[PORT_AUX_ACTIVE], 0.0f));
+    self->target[CTRL_AUX_ACTIVE] = bool01(port_value(self->control[PORT_AUX_ACTIVE], 0.0f));
 
     self->target[CTRL_AUX_ONSET] = quantize01(port_value(self->control[PORT_AUX_ONSET], 0.20f));
     self->target[CTRL_SPREAD] = quantize01(port_value(self->control[PORT_SPREAD], 0.45f));
     self->target[CTRL_DRY_TYPE] = quantize01(port_value(self->control[PORT_DRY_TYPE], 0.0f));
-    self->target[CTRL_DROP_BYPASS] = quantize01(port_value(self->control[PORT_DROP_BYPASS], 0.0f));
-    self->target[CTRL_SNAG_BYPASS] = quantize01(port_value(self->control[PORT_SNAG_BYPASS], 0.0f));
-    self->target[CTRL_HUM_BYPASS] = quantize01(port_value(self->control[PORT_HUM_BYPASS], 0.0f));
+    self->target[CTRL_DROP_BYPASS] = bool01(port_value(self->control[PORT_DROP_BYPASS], 0.0f));
+    self->target[CTRL_SNAG_BYPASS] = bool01(port_value(self->control[PORT_SNAG_BYPASS], 0.0f));
+    self->target[CTRL_HUM_BYPASS] = bool01(port_value(self->control[PORT_HUM_BYPASS], 0.0f));
 
     self->target[CTRL_HISS_LEVEL] = quantize01(port_value(self->control[PORT_HISS_LEVEL], 0.50f));
     self->target[CTRL_MECH_LEVEL] = quantize01(port_value(self->control[PORT_MECH_LEVEL], 0.50f));
     self->target[CTRL_MECH_TYPE] = clampf(port_value(self->control[PORT_MECH_TYPE], 0.0f), -1.0f, 1.0f);
     self->target[CTRL_CRINKLE_POP_LEVEL] = quantize01(port_value(self->control[PORT_CRINKLE_POP_LEVEL], 0.45f));
     self->target[CTRL_INPUT_GAIN_MODE] = clampf(port_value(self->control[PORT_INPUT_GAIN_MODE], 1.0f), 0.0f, 2.0f);
+}
+
+static inline int is_bool_control(const int c) {
+    return (c == CTRL_AUX_ACTIVE || c == CTRL_DROP_BYPASS || c == CTRL_SNAG_BYPASS || c == CTRL_HUM_BYPASS) ? 1 : 0;
 }
 
 static void reset_state(LosTT* self) {
@@ -486,7 +495,11 @@ static void run(LV2_Handle instance, uint32_t n_samples) {
 
     for (uint32_t i = 0; i < n_samples; ++i) {
         for (int c = 0; c < CTRL_COUNT; ++c) {
-            self->smooth[c] += (self->target[c] - self->smooth[c]) * smooth_blend;
+            if (is_bool_control(c)) {
+                self->smooth[c] = self->target[c];
+            } else {
+                self->smooth[c] += (self->target[c] - self->smooth[c]) * smooth_blend;
+            }
         }
 
         TapeProfile p;
